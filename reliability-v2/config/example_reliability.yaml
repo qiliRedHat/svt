@@ -101,6 +101,25 @@ reliability:
         - func delete_project 1
         - func verify_project_deletion 1
 
+    - name: stress
+      user_name: testuser-
+      user_start: 18
+      user_end: 27
+      trigger: 0
+      jitter: 0
+      interval: 0
+      loops: 50
+      pre_tasks:
+        - func delete_all_projects
+        - func verify_project_deletion 1
+        - func new_project 1
+      tasks:
+        - oc apply -f <path_to_content>/pod.yaml
+        - oc delete -f <path_to_content>/pod.yaml
+      post_tasks:
+        - func delete_project 1
+        - func verify_project_deletion 1
+
   cerberusIntegration:
     # start cerberus https://github.com/cloud-bulldozer/cerberus before starting reliabiity test.
     cerberus_enable: False
