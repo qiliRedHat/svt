@@ -41,4 +41,18 @@ run_ingress_perf(){
     popd
 }
 
+run_kubeburner_ocp_wrapper(){
+    if [[ ! -d e2e-benchmarking/workloads/kube-burner-ocp-wrapper ]]; then
+        setup
+    fi
+    pushd e2d-benchmarking/workloads/kube-burner-ocp-wrapper
+    export WORKLOAD=${WORKLOAD}
+    export ITERATIONS=${ITERATIONS}
+    export CHRUN=${CHRUN}
+    export PPROF=${PPROF}
+    export EXTRA_FLAGS=${EXTRA_FLAGS}
+    ./run.sh |& tee "tmp/${WORKLOAD}-$(date +%Y%m%d%H%M%S).out"
+    popd
+}
+
 set +ex
