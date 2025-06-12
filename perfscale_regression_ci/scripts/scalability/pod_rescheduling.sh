@@ -8,24 +8,13 @@
 ## kube-burner config: perfscale_regerssion_ci/kubeburner-object-templates/descheduler-evict-pvc.yml
 ################################################ 
 
-source ../common.sh
+source ../pod_rescheduling_env.sh
 source ../../utils/run_workload.sh
+source ../common.sh
 
 # 40 pods-per-node for node-density-cni workload
-echo "======Use kube-burner-ocp to load the clusters with node-density-cni 40 pods-per-node======"
-export WORKLOAD="node-density-cni"
-export EXTRA_FLAGS="--pods-per-node=40"
-export CHRUN="false"
-export PPROF="false"
-run_kubeburner_ocp_wrapper
-
-# 300 iterations for cluster-density-v2 workload
-echo "======Use kube-burner-ocp to load the clusters with cluster-density-v2 300 iterations======"
-export WORKLOAD="cluster-density-v2"
-export ITERATIONS="300"
-export CHRUN="false"
-export PPROF="false"
-run_kubeburner_ocp_wrapper
+echo "======Use kube-burner to load the cluster with test objects======"
+run_workload
 
 # Find a node to add load 
 loaded_worker=$(oc get nodes -l node-role.kubernetes.io/worker= --no-headers -o name | head -n 1)
